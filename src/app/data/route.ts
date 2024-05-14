@@ -1,6 +1,7 @@
 import { parse } from "csv-parse/sync";
 import { readFile } from "fs/promises";
 import { NextResponse } from "next/server";
+import { JeopardyQuestion } from "../jeopardy";
 
 export async function GET() {
     const fileContents: string = await readFile("./jeopardy.csv", {encoding: 'utf-8'});
