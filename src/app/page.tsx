@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Paper } from "@mui/material";
+import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Grow, Paper, Slide, Zoom } from "@mui/material";
 import { Box, Container } from "@mui/system";
 import "./jeopardy.css";
 import React from "react";
@@ -49,7 +49,10 @@ function JeopardyCard(props: {
   const [answerVisible, setAnswerVisible] = React.useState<boolean>(false);
   const { unit, points, question } = props;
 
-  if (!question) return <p>Failed to load question {unit}:{points}</p>
+  // Loading animation
+  if (!question) return <Grid item xs={2} className="jeopardy-card" m={1.5} p={0} style={{ padding: '0px' }}>
+    <CircularProgress style={{padding: '24px'}}/>
+  </Grid>
 
   return <Grid item
     xs={1.5}
@@ -60,7 +63,7 @@ function JeopardyCard(props: {
   >
     <div onClick={() => setOpen(true)} style={{ padding: '24px' }}>{unit}: {points}</div>
 
-    <Dialog open={open} fullWidth={true} maxWidth="xl" onClose={() => setOpen(false)}>
+    <Dialog open={open} fullWidth={true} maxWidth="xl" onClose={() => setOpen(false)} TransitionComponent={Zoom}>
       <DialogTitle>Unit {unit}: {points}</DialogTitle>
       <DialogContent>
         {question.question}
