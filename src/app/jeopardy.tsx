@@ -1,5 +1,5 @@
 export interface JeopardyQuestion {
-    category: string;
+    unit: number;
     points: number;
     question: string;
     answer: string;
