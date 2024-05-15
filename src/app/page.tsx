@@ -1,7 +1,7 @@
 "use client";
 
-import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Grow, Paper, Slide, Zoom } from "@mui/material";
-import { Box, Container } from "@mui/system";
+import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Paper, Zoom } from "@mui/material";
+import { Container } from "@mui/system";
 import "./jeopardy.css";
 import React from "react";
 import { JeopardyQuestion } from "./jeopardy";

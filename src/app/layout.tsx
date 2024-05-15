@@ -1,5 +1,4 @@
 import { AppBar, Stack, Toolbar, Typography } from '@mui/material';
-import CssBaseline from '@mui/material/CssBaseline';
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 
 export default function RootLayout({
