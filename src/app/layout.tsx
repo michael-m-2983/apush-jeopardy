@@ -20,19 +20,18 @@ export default function RootLayout({
 function NavBar() {
   return <>
     <AppBar>
-      <Stack direction={"row"} justifyContent="space-between" m={1}>
+      <Stack direction={"row"} justifyContent="space-between" alignItems="center" m={1}>
         <HistoryEduIcon />
+
         <Typography
-          variant="h4"
+          variant="h6"
           noWrap
-          sx={{
-            ml: 2,
-          }}
+          textAlign="center"
         >
           APUSH Jeopardy
         </Typography>
 
-        <Typography variant="h6" noWrap textAlign="right">
+        <Typography variant="h6" noWrap>
           By Michael M. and Jeremy N.
         </Typography>
       </Stack>
