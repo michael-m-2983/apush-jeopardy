@@ -23,7 +23,7 @@ function NavBar() {
       <Stack direction={"row"} justifyContent="space-between" m={1}>
         <HistoryEduIcon />
         <Typography
-          variant="h6"
+          variant="h4"
           noWrap
           sx={{
             ml: 2,
@@ -32,7 +32,7 @@ function NavBar() {
           APUSH Jeopardy
         </Typography>
 
-        <Typography variant="h5" noWrap textAlign="right">
+        <Typography variant="h6" noWrap textAlign="right">
           By Michael M. and Jeremy N.
         </Typography>
       </Stack>
