@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import { JeopardyQuestion } from "../jeopardy";
 
 export async function GET() {
-    const fileContents: string = await readFile("./jeopardy.csv", {encoding: 'utf-8'});
+    const fileContents: string = await readFile("./data/jeopardy.csv", {encoding: 'utf-8'});
 
     const loadedData: any[] = parse(fileContents, {
         encoding: 'utf-8'
