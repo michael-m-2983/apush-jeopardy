@@ -30,6 +30,7 @@ function QuestionBox(props: { question: JeopardyQuestionState }) {
     size: '80%',
     trapFocus: true,
     closeOnClickOutside: false,
+    centered: true,
     overlayProps: {
       backgroundOpacity: 0.55,
       blur: 3
