@@ -1,40 +1,55 @@
-import { AppBar, Stack, Toolbar, Typography } from '@mui/material';
-import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
+"use client";
+
+import '@mantine/core/styles.css';
+import { AppShell, MantineProvider, createTheme } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { JeopardyContext, useDefaultGameState } from './game';
+
+import "./style.css";
+import { ModalsProvider } from '@mantine/modals';
+import { Leaderboard } from './leaderboard';
+
+const theme = createTheme({});
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const gameState = useDefaultGameState();
+
   return (
-    <html lang="en">
+    <html>
       <body>
-        <NavBar />
-        {children}
+        <MantineProvider theme={theme} defaultColorScheme='dark'>
+          <ModalsProvider>
+            <JeopardyContext.Provider value={gameState}>
+              <ApplicationShell game={children} leaderboard={<Leaderboard />} />
+            </JeopardyContext.Provider>
+          </ModalsProvider>
+        </MantineProvider>
       </body>
     </html>
   );
 }
 
-function NavBar() {
-  return <>
-    <AppBar>
-      <Stack direction={"row"} justifyContent="space-between" alignItems="center" m={1}>
-        <HistoryEduIcon />
+function ApplicationShell(props: { game: any, leaderboard: any }) {
+  const [opened, { toggle }] = useDisclosure();
 
-        <Typography
-          variant="h6"
-          noWrap
-          textAlign="center"
-        >
-          APUSH Jeopardy
-        </Typography>
-
-        <Typography variant="h6" noWrap>
-          By Michael M. and Jeremy N.
-        </Typography>
-      </Stack>
-    </AppBar>
-    <Toolbar />
-  </>
+  return <AppShell
+    header={{ height: 60 }}
+    footer={{ height: 60 }}
+    aside={{ width: 300, breakpoint: 'md', collapsed: { desktop: false, mobile: true } }}
+    padding="md">
+    <AppShell.Header>
+      Page header
+    </AppShell.Header>
+    <AppShell.Main>
+      {props.game}
+    </AppShell.Main>
+    <AppShell.Aside>
+      {props.leaderboard}
+    </AppShell.Aside>
+  </AppShell>
 }

@@ -1,7 +1,6 @@
 import { parse } from "csv-parse/sync";
 import { readFile } from "fs/promises";
 import { NextResponse } from "next/server";
-import { JeopardyQuestion } from "../jeopardy";
 
 export async function GET() {
     const fileContents: string = await readFile("./data/jeopardy.csv", {encoding: 'utf-8'});
@@ -12,7 +11,7 @@ export async function GET() {
 
     const headers: string[] = loadedData[0];
     
-    let result: JeopardyQuestion[] = [];
+    let result: any[] = [];
 
     loadedData.forEach(entry => {
         let obj: any = {};

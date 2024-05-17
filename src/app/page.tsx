@@ -1,79 +1,61 @@
 "use client";
 
-import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Paper, Zoom } from "@mui/material";
-import { Container } from "@mui/system";
-import "./jeopardy.css";
 import React from "react";
-import { JeopardyQuestion } from "./jeopardy";
+import { JeopardyContext, JeopardyQuestionState, JeopardyTeamState } from "./game";
+import { Button, Card, Center, Grid, List, Loader, Skeleton, Stack, Text } from "@mantine/core";
+import { modals } from "@mantine/modals";
 
-const POINT_VALUES = [500, 400, 300, 200, 100];
-const UNITS = [2, 3, 4, 5, 6, 7];
+export default function HomePage() {
+  const { questions } = React.useContext(JeopardyContext)!;
 
-export default function Home() {
-  const jeopardyData = useJeopardyData();
+  if (questions.length == 0) return <Center h={200}>
+    <Loader type="bars" size="xl" />
+  </Center>
 
-  const cards = POINT_VALUES.map(points => {
-    return UNITS.map(unit => {
-      return <JeopardyCard unit={unit} points={points} key={unit.toString() + points.toString()} question={jeopardyData.find(q => q.unit == unit && q.points == points)} />
-    })
+  return <Grid>
+    {questions.sort((a, b) => b.points - a.points).map((question: JeopardyQuestionState) => {
+      return <Grid.Col span={2} key={question.question}>
+        <QuestionBox question={question} />
+      </Grid.Col>
+    })}
+  </Grid>
+}
+
+function QuestionBox(props: { question: JeopardyQuestionState }) {
+  const { question } = props;
+
+  const clickAction = () => modals.open({
+    title: `Unit ${question.unit}: ${question.points}`,
+    withCloseButton: false,
+    size: '80%',
+    trapFocus: true,
+    closeOnClickOutside: false,
+    overlayProps: {
+      backgroundOpacity: 0.55,
+      blur: 3
+    },
+    children: <QuestionModal question={question} />
   });
 
-  return <Container maxWidth="lg">
-    <Paper style={{ padding: '20px' }}>
-      <Grid container spacing={2} justifyContent="center" alignItems="center">
-        {cards}
-      </Grid>
-    </Paper>
-  </Container>
+  if (question.completed) {
+    return <Card shadow="sm" padding="lg" radius="md" bg="dark">
+      <Text size="xl" ta="center" c="gray" fs="italic">Unit {question.unit}: {question.points}</Text>
+    </Card>
+  }
+
+  return <Card shadow="sm" padding="lg" radius="md" withBorder onClick={clickAction} className="jeopardy-card">
+    <Text size="xl" ta="center" c="white">Unit {question.unit}: {question.points}</Text>
+  </Card>
 }
 
-function useJeopardyData() {
-  //TODO: cache
-  const [data, setData] = React.useState<JeopardyQuestion[]>([]);
+function QuestionModal(props: { question: JeopardyQuestionState }) {
+  const { question } = props;
 
-  React.useEffect(() => {
-    fetch("data").then(r => r.json()).then((data: any[]) => {
-      setData(data);
-    });
-  }, [setData]);
+  //TODO
+  //  - "show answer" button
+  //  - add points to the leaderboard
 
-  return data;
-}
-
-function JeopardyCard(props: {
-  unit: number,
-  points: number,
-  question: JeopardyQuestion | undefined
-}) {
-  const [open, setOpen] = React.useState<boolean>(false);
-  const [answerVisible, setAnswerVisible] = React.useState<boolean>(false);
-  const { unit, points, question } = props;
-
-  // Loading animation
-  if (!question) return <Grid item xs={2} className="jeopardy-card" m={1.5} p={0} style={{ padding: '0px' }}>
-    <CircularProgress style={{padding: '24px'}}/>
-  </Grid>
-
-  return <Grid item
-    xs={1.5}
-    m={1.5}
-    p={0}
-    style={{ padding: '0px' }}
-    className="jeopardy-card"
-  >
-    <div onClick={() => setOpen(true)} style={{ padding: '24px' }}>{unit}: {points}</div>
-
-    <Dialog open={open} fullWidth={true} maxWidth="xl" onClose={() => setOpen(false)} TransitionComponent={Zoom}>
-      <DialogTitle>Unit {unit}: {points}</DialogTitle>
-      <DialogContent>
-        {question.question}
-
-        {answerVisible && <p>Answer: {question.answer}</p>}
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={() => setAnswerVisible(!answerVisible)}>{answerVisible ? "Hide" : "Show"} answer</Button>
-        <Button onClick={() => setOpen(false)}>Close</Button>
-      </DialogActions>
-    </Dialog>
-  </Grid>
+  return <Stack>
+    <p>{question.question}</p>
+  </Stack>
 }

@@ -1,0 +1,5 @@
+.jeopardy-card:hover {
+    background-color: #4A4A4A;
+    transform: scale(1.1);
+    transition: transform 2s;
+}
