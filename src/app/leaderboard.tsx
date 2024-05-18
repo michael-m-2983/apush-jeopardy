@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { JeopardyContext } from "./game"
 import { List } from "@mantine/core";

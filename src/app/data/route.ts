@@ -1,3 +1,5 @@
+"use server";
+
 import { parse } from "csv-parse/sync";
 import { readFile } from "fs/promises";
 import { NextResponse } from "next/server";
