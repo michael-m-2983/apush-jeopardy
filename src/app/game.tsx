@@ -1,11 +1,15 @@
 "use client";
 import React from "react"
 
-export const TEAMS = [1, 2, 3, 4];
+export const TEAMS = [1, 2, 3, 4, 5];
+import STUDENT_TEAMS from "./teams.json"; // Contains the list of students in each team
+
 export const POINT_VALUES = [500, 400, 300, 200, 100];
 export const UNITS = [2, 3, 4, 5, 6, 7];
 
 export interface JeopardyTeamState {
+    number: number
+    students: string[]
     score: number
 }
 
@@ -24,11 +28,22 @@ export interface JeopardyGameState {
 
     questions: JeopardyQuestionState[]
     setQuestions: (questions: JeopardyQuestionState[]) => void
+
+    // The current round number
+    round: number
+    setRound: (round: number) => void
 }
 
 export function useDefaultGameState(): JeopardyGameState {
-    const [teams, setTeams] = React.useState<JeopardyTeamState[]>(TEAMS.map(_ => ({ score: 0 })));
+    const [teams, setTeams] = React.useState<JeopardyTeamState[]>(TEAMS.map((team: number) => ({ 
+        number: team, 
+        score: 0, 
+        students: STUDENT_TEAMS[team - 1] 
+    })));
+
     const [questions, setQuestions] = React.useState<JeopardyQuestionState[]>([]);
+
+    const [roundNumber, setRoundNumber] = React.useState<number>(0);
 
     React.useEffect(() => {
         fetch("data").then(r => r.json()).then((data: any[]) => {
@@ -47,7 +62,9 @@ export function useDefaultGameState(): JeopardyGameState {
         teams: teams,
         setTeams: setTeams,
         questions: questions,
-        setQuestions: setQuestions
+        setQuestions: setQuestions,
+        round: roundNumber,
+        setRound: setRoundNumber
     }
 }
 
@@ -56,7 +73,9 @@ function createEmptyGameState(): JeopardyGameState {
         teams: [],
         setTeams: () => {},
         questions: [],
-        setQuestions: () => {}
+        setQuestions: () => {},
+        round: 0,
+        setRound: () => {}
     };
 }
 
