@@ -51,4 +51,13 @@ export function useDefaultGameState(): JeopardyGameState {
     }
 }
 
-export const JeopardyContext = React.createContext<JeopardyGameState | null>(null);
+function createEmptyGameState(): JeopardyGameState {
+    return {
+        teams: [],
+        setTeams: () => {},
+        questions: [],
+        setQuestions: () => {}
+    };
+}
+
+export const JeopardyContext = React.createContext<JeopardyGameState>(createEmptyGameState());
