@@ -75,8 +75,7 @@ function QuestionModal(props: { question: JeopardyQuestionState, open: boolean, 
     closeOnClickOutside={false}
     centered
     overlayProps={{
-      backgroundOpacity: 0.55,
-      blur: 3
+      backgroundOpacity: 1
     }}
   >
     <Stack gap="xl">
