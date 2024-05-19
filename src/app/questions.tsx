@@ -1,4 +1,4 @@
-import { Button, Card, Group, Modal, Stack, Text } from "@mantine/core";
+import { Button, Card, Group, Loader, Modal, Stack, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import React from "react";
 import { JeopardyContext, JeopardyQuestionState, JeopardyTeamState, TEAMS } from "./game";
@@ -70,11 +70,14 @@ function QuestionModal(props: { question: JeopardyQuestionState, open: boolean, 
 
 function TeamSelect(props: {
     onClick: (team: number) => void;
-  }) {
+}) {
+    const { teams, round } = React.useContext(JeopardyContext);
+
     return <Group grow justify="center">
-      {TEAMS.map(team => {
-        return <Button key={"team" + team} onClick={() => props.onClick(team)}>Team {team}</Button>
-      })}
+        {TEAMS.map(team_number => {
+            const team: JeopardyTeamState | undefined = teams.find(t => t.number == team_number);
+            if(!team) return <Loader />
+            return <Button key={"team" + team} onClick={() => props.onClick(team_number)}>Team {team_number}: {team.students[round % team.students.length]}</Button>
+        })}
     </Group>;
-  }
-  
+}
