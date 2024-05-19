@@ -32,6 +32,9 @@ export interface JeopardyGameState {
     // The current round number
     round: number
     setRound: (round: number) => void
+
+    picking: string
+    setPicking: (picking: string) => void
 }
 
 export function useDefaultGameState(): JeopardyGameState {
@@ -44,6 +47,7 @@ export function useDefaultGameState(): JeopardyGameState {
     const [questions, setQuestions] = React.useState<JeopardyQuestionState[]>([]);
 
     const [roundNumber, setRoundNumber] = React.useState<number>(0);
+    const [picking, setPicking] = React.useState<string>(`${teams[0].students[0]} from Team ${teams[0].number}`)
 
     React.useEffect(() => {
         fetch("data").then(r => r.json()).then((data: any[]) => {
@@ -64,7 +68,9 @@ export function useDefaultGameState(): JeopardyGameState {
         questions: questions,
         setQuestions: setQuestions,
         round: roundNumber,
-        setRound: setRoundNumber
+        setRound: setRoundNumber,
+        picking: picking,
+        setPicking: setPicking
     }
 }
 
@@ -75,7 +81,9 @@ function createEmptyGameState(): JeopardyGameState {
         questions: [],
         setQuestions: () => {},
         round: 0,
-        setRound: () => {}
+        setRound: () => {},
+        picking: "Loading...",
+        setPicking: () => {}
     };
 }
 

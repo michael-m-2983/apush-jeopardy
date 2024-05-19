@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
 import { JeopardyContext, JeopardyTeamState } from "./game"
-import { List, Table } from "@mantine/core";
+import { Text, Table } from "@mantine/core";
 
 export function Leaderboard() {
-    const { teams, round } = React.useContext(JeopardyContext)!;
+    const { teams, round, picking } = React.useContext(JeopardyContext)!;
 
     const displayedFields = {
         "Team": (team: JeopardyTeamState) => team.number,
@@ -13,10 +13,10 @@ export function Leaderboard() {
     };
 
     const header = <Table.Tr>
-            {Object.keys(displayedFields).map((field: string) => {
-                return <Table.Th key={"th" + field}>{field}</Table.Th>
-            })}
-        </Table.Tr>;
+        {Object.keys(displayedFields).map((field: string) => {
+            return <Table.Th key={"th" + field}>{field}</Table.Th>
+        })}
+    </Table.Tr>;
 
     const rows = teams.map((team: JeopardyTeamState) => {
         return <Table.Tr key={team.number}>
@@ -26,12 +26,15 @@ export function Leaderboard() {
         </Table.Tr>
     });
 
-    return <Table>
-        <Table.Thead>
-            {header}
-        </Table.Thead>
-        <Table.Tbody>
-            {rows}
-        </Table.Tbody>
-    </Table>
+    return <>
+        <Text m="md" ta="center">Picking: {picking}</Text>
+        <Table>
+            <Table.Thead>
+                {header}
+            </Table.Thead>
+            <Table.Tbody>
+                {rows}
+            </Table.Tbody>
+        </Table>
+    </>
 }

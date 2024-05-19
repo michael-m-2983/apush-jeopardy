@@ -26,7 +26,7 @@ function ensureInt(input: string | number) {
 
 function QuestionModal(props: { question: JeopardyQuestionState, open: boolean, onClose: () => void; }) {
     const { question } = props;
-    const { questions, setQuestions, teams, setTeams, round, setRound } = React.useContext(JeopardyContext);
+    const { questions, setQuestions, teams, setTeams, round, setRound, setPicking } = React.useContext(JeopardyContext);
 
     const onTeamAnswer = (team: number) => {
         // Mark question as completed
@@ -42,6 +42,9 @@ function QuestionModal(props: { question: JeopardyQuestionState, open: boolean, 
             }
             return t;
         }));
+
+        // Set the next picker
+        setPicking(`${teams.find(t => t.number == team)?.students[round]} from Team ${team}`);
 
         // Increment round number
         setRound(round + 1);
