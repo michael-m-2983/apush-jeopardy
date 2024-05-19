@@ -2,7 +2,6 @@
 
 import '@mantine/core/styles.css';
 import { AppShell, MantineProvider, createTheme } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
 import { JeopardyContext, useDefaultGameState } from './game';
 
 import "./style.css";
@@ -35,12 +34,10 @@ export default function RootLayout({
 }
 
 function ApplicationShell(props: { game: any, leaderboard: any }) {
-  const [opened, { toggle }] = useDisclosure();
-
   return <AppShell
     header={{ height: 60 }}
     footer={{ height: 60 }}
-    aside={{ width: 300, breakpoint: 'md', collapsed: { desktop: false, mobile: true } }}
+    aside={{ width: 300, breakpoint: 'md', collapsed: { desktop: false, mobile: false } }}
     padding="md">
     <AppShell.Header>
       Page header
