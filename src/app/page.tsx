@@ -1,22 +1,12 @@
 "use client";
 
 import React from "react";
-import { JeopardyContext, JeopardyQuestionState } from "./game";
-import { Center, Grid, Loader } from "@mantine/core";
-import { QuestionBox } from "./questions";
+import { QuestionGrid, QuestionProgressBar } from "./questions";
+import { Stack } from "@mantine/core";
 
 export default function HomePage() {
-  const { questions } = React.useContext(JeopardyContext)!;
-
-  if (questions.length == 0) return <Center h={200}>
-    <Loader type="bars" size="xl" />
-  </Center>
-
-  return <Grid>
-    {questions.sort((a, b) => a.points - b.points).map((question: JeopardyQuestionState) => {
-      return <Grid.Col span={2} key={question.question}>
-        <QuestionBox question={question} />
-      </Grid.Col>
-    })}
-  </Grid>
+  return <Stack>
+    <QuestionProgressBar />
+    <QuestionGrid />
+  </Stack>
 }

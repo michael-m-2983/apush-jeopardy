@@ -1,7 +1,33 @@
-import { Button, Card, Group, Loader, Modal, Stack, Text } from "@mantine/core";
+import { Button, Card, Center, Grid, Group, Loader, Modal, Progress, Stack, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import React from "react";
 import { JeopardyContext, JeopardyQuestionState, JeopardyTeamState, TEAMS } from "./game";
+
+
+export function QuestionGrid() {
+    const { questions } = React.useContext(JeopardyContext)!;
+
+    if (questions.length == 0) return <Center h={200}>
+        <Loader type="bars" size="xl" />
+    </Center>
+
+    return <Grid>
+        {questions.sort((a, b) => a.points - b.points).map((question: JeopardyQuestionState) => {
+            return <Grid.Col span={2} key={question.question}>
+                <QuestionBox question={question} />
+            </Grid.Col>
+        })}
+    </Grid>
+}
+
+export function QuestionProgressBar() {
+    const { questions } = React.useContext(JeopardyContext);
+
+    const completed: number = questions.filter(q => q.completed).length;
+    const total: number = questions.length;
+
+    return <Progress value={100 * completed / total} />
+}
 
 export function QuestionBox(props: { question: JeopardyQuestionState }) {
     const { question } = props;
@@ -44,7 +70,7 @@ function QuestionModal(props: { question: JeopardyQuestionState, open: boolean, 
         }));
 
         // Set the next picker
-        setPicking(`${teams.find(t => t.number == team)?.students[round]} from Team ${team}`);
+        setPicking(`${teams[team - 1].students[round]} from Team ${team}`);
 
         // Increment round number
         setRound(round + 1);
@@ -79,7 +105,7 @@ function TeamSelect(props: {
     return <Group grow justify="center">
         {TEAMS.map(team_number => {
             const team: JeopardyTeamState | undefined = teams.find(t => t.number == team_number);
-            if(!team) return <Loader />
+            if (!team) return <Loader />
             return <Button key={"team" + team} onClick={() => props.onClick(team_number)}>Team {team_number}: {team.students[round % team.students.length]}</Button>
         })}
     </Group>;
