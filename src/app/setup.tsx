@@ -1,8 +1,12 @@
+"use client";
 import { Carousel } from '@mantine/carousel';
 import '@mantine/carousel/styles.css';
-import { Center, Checkbox, Container, Modal, Table } from '@mantine/core';
+import { Button, Center, Checkbox, Container, Group, List, Modal, Stack, Table, Text } from '@mantine/core';
 import { JeopardyContext, UNITS } from './game';
 import React from 'react';
+
+import UNIT_DATA from "./units.json";
+import PRESIDENTS from "./presidents.json";
 
 interface SetupModalProps {
     open: boolean
@@ -19,10 +23,15 @@ export function SetupModal(props: SetupModalProps) {
 
     const slideshow = <Carousel withIndicators withControls={false} height={"96vh"}>
         <Carousel.Slide><SetupTeams /></Carousel.Slide>
-        {UNITS.map(unit => <Carousel.Slide>
-                <UnitOverview unit={unit} />
-            </Carousel.Slide>
+        {UNITS.map(unit => <Carousel.Slide key={unit}>
+            <UnitOverview unit={unit} />
+        </Carousel.Slide>
         )}
+        <Carousel.Slide>
+            <Center>
+                <Button size='4em' variant='outline' onClick={props.onClose}>Close</Button>
+            </Center>
+        </Carousel.Slide>
     </Carousel>;
 
     return <Modal onClose={props.onClose} opened={props.open} fullScreen transitionProps={{ transition: 'rotate-right', duration: 1000 }} withCloseButton={false}>
@@ -65,6 +74,41 @@ function SetupTeams() {
 
 // A unit overview slide
 // TODO: improve this
-function UnitOverview(props: {unit: number}) {
-    return <p>Unit overview for unit {props.unit}</p>
+function UnitOverview(props: { unit: number }) {
+    const { start, end } = UNIT_DATA.find(u => u.number == props.unit)!;
+
+    return <Stack align="stretch">
+        <Text size="3em" ta="center">Unit {props.unit} ({start}-{end})</Text>
+        <Group grow>
+            <PresidentTable unit={props.unit} />
+        </Group>
+    </Stack>
+}
+
+function PresidentTable(props: { unit: number }) {
+    const { start, end } = UNIT_DATA.find(u => u.number == props.unit)!;
+
+    const presidents = PRESIDENTS
+        .filter(president => parseInt(president.startdate.substring(0, 4)) > start)
+        .filter(president => parseInt(president.startdate.substring(0, 4)) < end)
+        .sort((president_a, president_b) => parseInt(president_a.startdate.substring(0, 4)) - parseInt(president_b.startdate.substring(0, 4)))
+
+    return <Table striped withColumnBorders withTableBorder>
+        <Table.Thead>
+            <Table.Tr>
+                <Table.Th>Name</Table.Th>
+                <Table.Th>Timeline</Table.Th>
+                <Table.Th>Party</Table.Th>
+            </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody>
+            {presidents.map(president => {
+                return <Table.Tr key={president.person.name}>
+                    <Table.Td>President {president.person.firstname} {president.person.middlename} {president.person.lastname}</Table.Td>
+                    <Table.Td>{president.startdate.substring(0, 4)}-{president.enddate.substring(0, 4)}</Table.Td>
+                    <Table.Td>{president.party}</Table.Td>
+                </Table.Tr>
+            })}
+        </Table.Tbody>
+    </Table>;
 }
