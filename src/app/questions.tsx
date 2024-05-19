@@ -115,7 +115,7 @@ function TeamSelect(props: {
     return <Group grow justify="center">
         {TEAMS.map(team_number => {
             const team: JeopardyTeamState | undefined = teams.find(t => t.number == team_number);
-            if (!team) return <Loader />
+            if (!team) return <Loader key={"team" + team} />
             return <Button key={"team" + team} onClick={() => props.onSelectTeam(team_number)}>Team {team_number}: {team.students[round % team.students.length]}</Button>
         })}
     </Group>;
