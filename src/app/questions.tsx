@@ -75,18 +75,14 @@ function QuestionModal(props: { question: JeopardyQuestionState, open: boolean, 
 
         // Increment round number
         setRound(round + 1);
+    };
 
-        // If the game is over, display a new modal.
-        if(round >= questions.length) {
-            modals.open({
-                fullScreen: true,
-                withCloseButton: false,
-                closeOnClickOutside: false,
-                closeOnEscape: false,
-                children: <Goodbye />
-            });
-        }
-        
+    const onSelectNone = () => {
+        // Mark question as completed
+        setQuestions(questions.map((q: JeopardyQuestionState) => {
+            if (q == question) return { ...q, completed: true };
+            return q;
+        }));
     };
 
     return <Modal
@@ -102,14 +98,21 @@ function QuestionModal(props: { question: JeopardyQuestionState, open: boolean, 
             backgroundOpacity: 1
         }}
     >
-        <Stack gap="xl">
+        <Stack gap="md">
             <Text size="2.5em" ta="center" styles={{ root: { lineHeight: '2' } }} mt="lg" mb="lg">{question.question}</Text>
-            <TeamSelect onClick={onTeamAnswer} />
+            <TeamSelect onSelectTeam={onTeamAnswer} />
+            <Button variant="default" onClick={onSelectNone}>None</Button>
         </Stack>
 
     </Modal>
 }
 
+/**
+ * A goodbye modal
+ * 
+ * TODO: add it to the app
+ * TODO: fix the gradient animation visibility
+ */
 function Goodbye() {
     const [time, setTime] = React.useState(0);
     const interval = useInterval(() => setTime((s) => s + 1), 100); //TODO: make this more visible
@@ -130,7 +133,7 @@ function Goodbye() {
 }
 
 function TeamSelect(props: {
-    onClick: (team: number) => void;
+    onSelectTeam: (team: number) => void;
 }) {
     const { teams, round } = React.useContext(JeopardyContext);
 
@@ -138,7 +141,7 @@ function TeamSelect(props: {
         {TEAMS.map(team_number => {
             const team: JeopardyTeamState | undefined = teams.find(t => t.number == team_number);
             if (!team) return <Loader />
-            return <Button key={"team" + team} onClick={() => props.onClick(team_number)}>Team {team_number}: {team.students[round % team.students.length]}</Button>
+            return <Button key={"team" + team} onClick={() => props.onSelectTeam(team_number)}>Team {team_number}: {team.students[round % team.students.length]}</Button>
         })}
     </Group>;
 }
