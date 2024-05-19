@@ -1,7 +1,8 @@
 import { Button, Card, Center, Grid, Group, Loader, Modal, Progress, Stack, Text } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { useDisclosure, useInterval } from "@mantine/hooks";
 import React from "react";
 import { JeopardyContext, JeopardyQuestionState, JeopardyTeamState, TEAMS } from "./game";
+import { modals } from "@mantine/modals";
 
 
 export function QuestionGrid() {
@@ -70,10 +71,22 @@ function QuestionModal(props: { question: JeopardyQuestionState, open: boolean, 
         }));
 
         // Set the next picker
-        setPicking(`${teams[team - 1].students[round]} from Team ${team}`);
+        setPicking(`${teams[team - 1].students[round % teams[team - 1].students.length]} from Team ${team}`);
 
         // Increment round number
         setRound(round + 1);
+
+        // If the game is over, display a new modal.
+        if(round >= questions.length) {
+            modals.open({
+                fullScreen: true,
+                withCloseButton: false,
+                closeOnClickOutside: false,
+                closeOnEscape: false,
+                children: <Goodbye />
+            });
+        }
+        
     };
 
     return <Modal
@@ -95,6 +108,25 @@ function QuestionModal(props: { question: JeopardyQuestionState, open: boolean, 
         </Stack>
 
     </Modal>
+}
+
+function Goodbye() {
+    const [time, setTime] = React.useState(0);
+    const interval = useInterval(() => setTime((s) => s + 1), 100); //TODO: make this more visible
+
+    React.useEffect(() => {
+        interval.start();
+        return interval.stop;
+    }, []);
+
+    return <Text
+        ta="center"
+        size="5em"
+        variant="gradient"
+        gradient={{ from: 'red', to: 'cyan', deg: time % 360 }}
+    >
+        Have a nice summer!
+    </Text>;
 }
 
 function TeamSelect(props: {
