@@ -1,7 +1,7 @@
 "use client";
 
 import '@mantine/core/styles.css';
-import { AppShell, MantineProvider, createTheme } from '@mantine/core';
+import { AppShell, Group, MantineProvider, createTheme, Text } from '@mantine/core';
 import { JeopardyContext, useDefaultGameState } from './game';
 
 import "./style.css";
@@ -40,7 +40,9 @@ function ApplicationShell(props: { game: any, leaderboard: any }) {
     aside={{ width: 300, breakpoint: 'md', collapsed: { desktop: false, mobile: false } }}
     padding="md">
     <AppShell.Header>
-      Page header
+      <Group h="100%" px="md">
+        <Text size="xl">APUSH Jeopardy</Text>
+      </Group>
     </AppShell.Header>
     <AppShell.Main>
       {props.game}
