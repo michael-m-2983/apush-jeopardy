@@ -107,31 +107,6 @@ function QuestionModal(props: { question: JeopardyQuestionState, open: boolean, 
     </Modal>
 }
 
-/**
- * A goodbye modal
- * 
- * TODO: add it to the app
- * TODO: fix the gradient animation visibility
- */
-function Goodbye() {
-    const [time, setTime] = React.useState(0);
-    const interval = useInterval(() => setTime((s) => s + 1), 100); //TODO: make this more visible
-
-    React.useEffect(() => {
-        interval.start();
-        return interval.stop;
-    }, []);
-
-    return <Text
-        ta="center"
-        size="5em"
-        variant="gradient"
-        gradient={{ from: 'red', to: 'cyan', deg: time % 360 }}
-    >
-        Have a nice summer!
-    </Text>;
-}
-
 function TeamSelect(props: {
     onSelectTeam: (team: number) => void;
 }) {

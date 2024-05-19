@@ -56,8 +56,7 @@ function SetupTeams() {
                     {teamMemberRange.map(index => {
                         return <Table.Tr key={index}>
                             {teams.map(team => {
-
-                                if (team.students.length <= index) return <Table.Td />;
+                                if (team.students.length <= index) return <Table.Td key={team.number} />;
 
                                 return <Table.Td key={team.number}>
                                     <Checkbox label={team.students[index]} defaultChecked />
