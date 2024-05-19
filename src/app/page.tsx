@@ -13,7 +13,7 @@ export default function HomePage() {
   </Center>
 
   return <Grid>
-    {questions.sort((a, b) => b.points - a.points).map((question: JeopardyQuestionState) => {
+    {questions.sort((a, b) => a.points - b.points).map((question: JeopardyQuestionState) => {
       return <Grid.Col span={2} key={question.question}>
         <QuestionBox question={question} />
       </Grid.Col>
