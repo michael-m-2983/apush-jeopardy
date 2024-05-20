@@ -50,7 +50,9 @@ function SetupTeams() {
         <Center h="80vh">
             <Table withColumnBorders>
                 <Table.Thead>
-                    {teams.map(team => <Table.Th key={team.number}>Team {team.number}</Table.Th>)}
+                    <Table.Tr>
+                        {teams.map(team => <Table.Th key={team.number}>Team {team.number}</Table.Th>)}
+                    </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody>
                     {teamMemberRange.map(index => {
@@ -102,7 +104,7 @@ function PresidentTable(props: { unit: number }) {
         </Table.Thead>
         <Table.Tbody>
             {presidents.map(president => {
-                return <Table.Tr key={president.person.name}>
+                return <Table.Tr key={president.person.name + president.startdate + president.enddate}>
                     <Table.Td>President {president.person.firstname} {president.person.middlename} {president.person.lastname}</Table.Td>
                     <Table.Td>{president.startdate.substring(0, 4)}-{president.enddate.substring(0, 4)}</Table.Td>
                     <Table.Td>{president.party}</Table.Td>
