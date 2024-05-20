@@ -68,7 +68,9 @@ function SetupTeams() {
                     })}
                 </Table.Tbody>
             </Table>
+            
         </Center>
+        <Button fullWidth variant='default'>Finish</Button>
     </Container>
 
 }
