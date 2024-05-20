@@ -1,8 +1,8 @@
 "use client";
 import { Carousel } from '@mantine/carousel';
 import '@mantine/carousel/styles.css';
-import { Button, Center, Checkbox, Container, Group, List, Modal, Stack, Table, Text } from '@mantine/core';
-import { JeopardyContext, UNITS } from './game';
+import { Button, Center, Checkbox, CloseButton, Container, Group, List, Modal, Paper, Stack, Table, Text, Textarea } from '@mantine/core';
+import { JeopardyContext, JeopardyTeamState, UNITS } from './game';
 import React from 'react';
 
 import UNIT_DATA from "./units.json";
@@ -41,9 +41,9 @@ export function SetupModal(props: SetupModalProps) {
 
 //TODO: Allow for removal of team members
 function SetupTeams() {
-    const { teams, setTeams } = React.useContext(JeopardyContext);
+    const { teams, setTeams, setPicking } = React.useContext(JeopardyContext);
 
-    const maxTeamMembers = teams.sort((a, b) => b.students.length - a.students.length)[0].students.length;
+    const maxTeamMembers = 6;
     const teamMemberRange = Array.from({ length: maxTeamMembers }, (_, index) => index);
 
     return <Container size="lg">
@@ -61,16 +61,30 @@ function SetupTeams() {
                                 if (team.students.length <= index) return <Table.Td key={team.number} />;
 
                                 return <Table.Td key={team.number}>
-                                    <Checkbox label={team.students[index]} defaultChecked />
+                                    <Group justify='space-between'>
+                                        {team.students[index]}
+                                        <CloseButton onClick={() => {
+                                            // Remove student
+                                            const cloneTeams = [...teams]
+                                                .map(t => ({
+                                                    ...t,
+                                                    students: t.students.filter(s => s !== team.students[index])
+                                                }));
+
+                                            // Sort
+                                            cloneTeams.sort((a, b) => a.number - b.number);
+
+                                            // Set the state
+                                            setTeams(cloneTeams);
+                                        }} />
+                                    </Group>
                                 </Table.Td>
                             })}
                         </Table.Tr>
                     })}
                 </Table.Tbody>
             </Table>
-            
         </Center>
-        <Button fullWidth variant='default'>Finish</Button>
     </Container>
 
 }
