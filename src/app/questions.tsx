@@ -1,7 +1,7 @@
 import { Button, Card, Center, Grid, Group, Loader, Modal, Progress, Stack, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import React from "react";
-import { JeopardyContext, JeopardyQuestionState, JeopardyTeamState, TEAMS } from "./game";
+import { JeopardyContext, JeopardyQuestionState, JeopardyTeamState, TEAMS, UNITS } from "./game";
 
 
 export function QuestionGrid() {
@@ -12,6 +12,9 @@ export function QuestionGrid() {
     </Center>
 
     return <Grid>
+        {UNITS.map(unit => <Grid.Col span={2} key={unit}>
+            <Text ta="center" size="lg">Unit {unit}</Text>
+        </Grid.Col>)}
         {questions.sort((a, b) => a.points - b.points).map((question: JeopardyQuestionState) => {
             return <Grid.Col span={2} key={question.question}>
                 <QuestionBox question={question} />
@@ -41,7 +44,7 @@ export function QuestionBox(props: { question: JeopardyQuestionState }) {
     }
 
     return <Card shadow="sm" padding="lg" radius="md" onClick={open} withBorder className="jeopardy-card">
-        <Text size="xl" ta="center" c="white" >Unit {question.unit}: {question.points}</Text>
+        <Text size="xl" ta="center" c="white" >{question.points}</Text>
         <QuestionModal open={isModalOpen} onClose={close} question={question} />
     </Card>
 }
