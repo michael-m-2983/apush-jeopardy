@@ -57,7 +57,7 @@ function SetupTeams() {
     return <Container size="lg">
         <Center h="80vh">
             <Stack>
-                <Text ta="center" size="3em">Raise your hand if you aren't here</Text>
+                <Text ta="center" size="3em">Raise your hand if you aren&apos;t here</Text>
                 <Table withColumnBorders>
                     <Table.Thead>
                         <Table.Tr>
