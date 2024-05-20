@@ -1,7 +1,7 @@
 "use client";
 import { Carousel } from '@mantine/carousel';
 import '@mantine/carousel/styles.css';
-import { Button, Center, CloseButton, Container, Group, Modal, Stack, Table, Text } from '@mantine/core';
+import { Button, Center, CloseButton, Container, Group, Modal, Space, Stack, Table, Text } from '@mantine/core';
 import { JeopardyContext, UNITS } from './game';
 import React from 'react';
 
@@ -22,16 +22,25 @@ export function SetupModal(props: SetupModalProps) {
     */
 
     const slideshow = <Carousel withIndicators withControls={false} height={"96vh"}>
+        <Carousel.Slide>
+            <Center h="80vh">
+                <Stack>
+                    <Text ta="center" size="4em">AP US History Jeopardy</Text>
+                    <Text ta="center" size="xl">By Michael McCright and Jeremy N</Text>
+                </Stack>
+            </Center>
+        </Carousel.Slide>
         <Carousel.Slide><SetupTeams /></Carousel.Slide>
+        <Carousel.Slide>
+            <Center h="80vh">
+                <Button size='4em' variant='outline' onClick={props.onClose}>Play</Button>
+            </Center>
+        </Carousel.Slide>
         {UNITS.map(unit => <Carousel.Slide key={unit}>
             <UnitOverview unit={unit} />
         </Carousel.Slide>
         )}
-        <Carousel.Slide>
-            <Center>
-                <Button size='4em' variant='outline' onClick={props.onClose}>Play</Button>
-            </Center>
-        </Carousel.Slide>
+
     </Carousel>;
 
     return <Modal onClose={props.onClose} opened={props.open} fullScreen transitionProps={{ transition: 'rotate-right', duration: 1000 }} withCloseButton={false}>
