@@ -29,7 +29,7 @@ export function SetupModal(props: SetupModalProps) {
         )}
         <Carousel.Slide>
             <Center>
-                <Button size='4em' variant='outline' onClick={props.onClose}>Close</Button>
+                <Button size='4em' variant='outline' onClick={props.onClose}>Play</Button>
             </Center>
         </Carousel.Slide>
     </Carousel>;
