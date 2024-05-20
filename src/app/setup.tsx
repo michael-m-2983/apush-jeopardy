@@ -39,54 +39,55 @@ export function SetupModal(props: SetupModalProps) {
     </Modal>
 }
 
-//TODO: Allow for removal of team members
 function SetupTeams() {
-    const { teams, setTeams, setPicking } = React.useContext(JeopardyContext);
+    const { teams, setTeams } = React.useContext(JeopardyContext);
 
     const maxTeamMembers = 6;
     const teamMemberRange = Array.from({ length: maxTeamMembers }, (_, index) => index);
 
     return <Container size="lg">
         <Center h="80vh">
-            <Table withColumnBorders>
-                <Table.Thead>
-                    <Table.Tr>
-                        {teams.map(team => <Table.Th key={team.number}>Team {team.number}</Table.Th>)}
-                    </Table.Tr>
-                </Table.Thead>
-                <Table.Tbody>
-                    {teamMemberRange.map(index => {
-                        return <Table.Tr key={index}>
-                            {teams.map(team => {
-                                if (team.students.length <= index) return <Table.Td key={team.number} />;
-
-                                return <Table.Td key={team.number}>
-                                    <Group justify='space-between'>
-                                        {team.students[index]}
-                                        <CloseButton onClick={() => {
-                                            // Remove student
-                                            const cloneTeams = [...teams]
-                                                .map(t => ({
-                                                    ...t,
-                                                    students: t.students.filter(s => s !== team.students[index])
-                                                }));
-
-                                            // Sort
-                                            cloneTeams.sort((a, b) => a.number - b.number);
-
-                                            // Set the state
-                                            setTeams(cloneTeams);
-                                        }} />
-                                    </Group>
-                                </Table.Td>
-                            })}
+            <Stack>
+                <Text ta="center" size="3em">Raise your hand if you aren't here</Text>
+                <Table withColumnBorders>
+                    <Table.Thead>
+                        <Table.Tr>
+                            {teams.map(team => <Table.Th key={team.number}>Team {team.number}</Table.Th>)}
                         </Table.Tr>
-                    })}
-                </Table.Tbody>
-            </Table>
+                    </Table.Thead>
+                    <Table.Tbody>
+                        {teamMemberRange.map(index => {
+                            return <Table.Tr key={index}>
+                                {teams.map(team => {
+                                    if (team.students.length <= index) return <Table.Td key={team.number} />;
+
+                                    return <Table.Td key={team.number}>
+                                        <Group justify='space-between'>
+                                            {team.students[index]}
+                                            <CloseButton onClick={() => {
+                                                // Remove student
+                                                const cloneTeams = [...teams]
+                                                    .map(t => ({
+                                                        ...t,
+                                                        students: t.students.filter(s => s !== team.students[index])
+                                                    }));
+
+                                                // Sort
+                                                cloneTeams.sort((a, b) => a.number - b.number);
+
+                                                // Set the state
+                                                setTeams(cloneTeams);
+                                            }} />
+                                        </Group>
+                                    </Table.Td>
+                                })}
+                            </Table.Tr>
+                        })}
+                    </Table.Tbody>
+                </Table>
+            </Stack>
         </Center>
     </Container>
-
 }
 
 // A unit overview slide
