@@ -1,8 +1,7 @@
 import { Button, Card, Center, Grid, Group, Loader, Modal, Progress, Stack, Text } from "@mantine/core";
-import { useDisclosure, useInterval } from "@mantine/hooks";
+import { useDisclosure } from "@mantine/hooks";
 import React from "react";
 import { JeopardyContext, JeopardyQuestionState, JeopardyTeamState, TEAMS } from "./game";
-import { modals } from "@mantine/modals";
 
 
 export function QuestionGrid() {
