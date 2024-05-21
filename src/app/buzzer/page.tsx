@@ -1,3 +1,5 @@
+"use client";
+
 const buzz = () => {
     const date = new Date();
     alert('buzzed at ' + `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`);
