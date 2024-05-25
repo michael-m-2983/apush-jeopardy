@@ -1,7 +1,7 @@
 "use client";
 import { Carousel } from '@mantine/carousel';
 import '@mantine/carousel/styles.css';
-import { Button, Center, CloseButton, Container, Group, Modal, Space, Stack, Table, Text } from '@mantine/core';
+import { Button, Center, CloseButton, Container, Group, List, Modal, Space, Stack, Table, Text } from '@mantine/core';
 import { JeopardyContext, UNITS } from './game';
 import React from 'react';
 
@@ -36,10 +36,10 @@ export function SetupModal(props: SetupModalProps) {
                 <Button size='4em' variant='outline' onClick={props.onClose}>Play</Button>
             </Center>
         </Carousel.Slide>
-        {UNITS.map(unit => <Carousel.Slide key={unit}>
+        {/* {UNITS.map(unit => <Carousel.Slide key={unit}>
             <UnitOverview unit={unit} />
         </Carousel.Slide>
-        )}
+        )} */}
 
     </Carousel>;
 
@@ -56,8 +56,14 @@ function SetupTeams() {
 
     return <Container size="lg">
         <Center h="80vh">
-            <Stack>
-                <Text ta="center" size="3em">Raise your hand if you aren&apos;t here</Text>
+            <Stack gap="sm">
+                <Text ta="center" size="2.5em">Groups</Text>
+                <List type="ordered">
+                    <List.Item>Get with your group</List.Item>
+                    <List.Item>Tell us if anyone isn&apos;t here</List.Item>
+                    <List.Item>Bring a chromebook to the front to be your buzzer</List.Item>
+                </List>
+                <Space h={9} />
                 <Table withColumnBorders>
                     <Table.Thead>
                         <Table.Tr>
