@@ -2,6 +2,7 @@ import { Button, Card, Center, Grid, Group, Loader, Modal, Progress, Stack, Text
 import { useDisclosure } from "@mantine/hooks";
 import React from "react";
 import { JeopardyContext, JeopardyQuestionState, JeopardyTeamState, TEAMS, UNITS } from "./game";
+import UNIT_GROUPS from "./units.json";
 
 
 export function QuestionGrid() {
@@ -14,6 +15,7 @@ export function QuestionGrid() {
     return <Grid>
         {UNITS.map(unit => <Grid.Col span={2} key={unit}>
             <Text ta="center" size="lg">Unit {unit}</Text>
+            <Text ta="center" size="xs">({UNIT_GROUPS.find(u => u.number == unit)?.start}-{UNIT_GROUPS.find(u => u.number == unit)?.end})</Text>
         </Grid.Col>)}
         {questions.sort((a, b) => a.points - b.points).map((question: JeopardyQuestionState) => {
             return <Grid.Col span={2} key={question.question}>
@@ -87,10 +89,12 @@ function QuestionModal(props: { question: JeopardyQuestionState, open: boolean, 
         }));
     };
 
+    const questionUnit = UNIT_GROUPS.find(u => u.number == question.unit);
+
     return <Modal
         opened={props.open}
         onClose={props.onClose}
-        title={`Unit ${question.unit}: ${question.points}`}
+        title={`Unit ${question.unit}: ${question.points} (${questionUnit?.start}-${questionUnit?.end})`}
         withCloseButton={false}
         size="80%"
         trapFocus
