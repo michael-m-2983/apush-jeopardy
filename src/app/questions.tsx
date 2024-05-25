@@ -39,7 +39,7 @@ export function QuestionBox(props: { question: JeopardyQuestionState }) {
 
     if (question.completed) {
         return <Card shadow="sm" padding="lg" radius="md" bg="dark">
-            <Text size="xl" ta="center" c="gray" fs="italic">Unit {question.unit}: {question.points}</Text>
+            <Text size="xl" ta="center" c="gray" fs="italic">{question.points}</Text>
         </Card>
     }
 
