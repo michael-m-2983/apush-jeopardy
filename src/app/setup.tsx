@@ -57,9 +57,9 @@ function SetupTeams() {
     return <Container size="lg">
         <Center h="80vh">
             <Stack gap="sm">
-                <Text ta="center" size="2.5em">Groups</Text>
+                <Text ta="center" size="2.5em">Teams</Text>
                 <List type="ordered">
-                    <List.Item>Get with your group</List.Item>
+                    <List.Item>Get with your team</List.Item>
                     <List.Item>Tell us if anyone isn&apos;t here</List.Item>
                     <List.Item>Bring a chromebook to the front to be your buzzer</List.Item>
                 </List>
