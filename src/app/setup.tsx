@@ -7,6 +7,7 @@ import React from 'react';
 
 import UNIT_DATA from "./units.json";
 import PRESIDENTS from "./presidents.json";
+import useSound from 'use-sound';
 
 interface SetupModalProps {
     open: boolean

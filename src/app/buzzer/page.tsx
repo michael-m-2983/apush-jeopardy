@@ -7,7 +7,7 @@ import useSound from 'use-sound';
 
 export default function BuzzerPage() {
     const [buzz, setBuzz] = React.useState<Date | undefined>(undefined);
-    const [play] = useSound("buzzer.mp3");
+    const [play] = useSound("sfx/buzzer.mp3");
 
     const onClick = () => {
         setBuzz(new Date());

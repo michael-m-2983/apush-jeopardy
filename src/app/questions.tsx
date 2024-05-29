@@ -3,6 +3,7 @@ import { useDisclosure } from "@mantine/hooks";
 import React from "react";
 import { JeopardyContext, JeopardyQuestionState, JeopardyTeamState, TEAMS, UNITS } from "./game";
 import UNIT_GROUPS from "./units.json";
+import useSound from "use-sound";
 
 
 export function QuestionGrid() {
@@ -59,7 +60,16 @@ function QuestionModal(props: { question: JeopardyQuestionState, open: boolean, 
     const { question } = props;
     const { questions, setQuestions, teams, setTeams, round, setRound, setPicking } = React.useContext(JeopardyContext);
 
+    const correctSFX = useSound("sfx/correct.mp3")[0];
+    const incorrectSFX = useSound("sfx/incorrect.mp3")[0];
+
+    const [play, { stop }] = useSound("sfx/music.mp3");
+
     const onTeamAnswer = (team: number) => {
+        // Play sound
+        stop();
+        correctSFX();
+
         // Mark question as completed
         setQuestions(questions.map((q: JeopardyQuestionState) => {
             if (q == question) return { ...q, completed: true };
@@ -82,6 +92,10 @@ function QuestionModal(props: { question: JeopardyQuestionState, open: boolean, 
     };
 
     const onSelectNone = () => {
+
+        stop();
+        incorrectSFX();
+
         // Mark question as completed
         setQuestions(questions.map((q: JeopardyQuestionState) => {
             if (q == question) return { ...q, completed: true };
@@ -93,7 +107,7 @@ function QuestionModal(props: { question: JeopardyQuestionState, open: boolean, 
 
     return <Modal
         opened={props.open}
-        onClose={props.onClose}
+        onClose={() => { props.onClose(); stop(); }}
         title={`Unit ${question.unit}: ${question.points} (${questionUnit?.start}-${questionUnit?.end})`}
         withCloseButton={false}
         size="80%"
@@ -103,6 +117,8 @@ function QuestionModal(props: { question: JeopardyQuestionState, open: boolean, 
         overlayProps={{
             backgroundOpacity: 1
         }}
+        onMouseEnter={play}
+        onMouseLeave={stop}
     >
         <Stack gap="md">
             <Text size="2.5em" ta="center" styles={{ root: { lineHeight: '2' } }} mt="lg" mb="lg">{question.question}</Text>
