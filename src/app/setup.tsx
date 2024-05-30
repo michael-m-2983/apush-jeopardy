@@ -101,6 +101,7 @@ function SetupTeams() {
                         })}
                     </Table.Tbody>
                 </Table>
+                <Text>*: Not in this class</Text>
             </Stack>
         </Center>
     </Container>
