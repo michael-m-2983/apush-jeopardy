@@ -52,7 +52,7 @@ export function SetupModal(props: SetupModalProps) {
 function SetupTeams() {
     const { teams, setTeams } = React.useContext(JeopardyContext);
 
-    const maxTeamMembers = 6;
+    const maxTeamMembers = 7;
     const teamMemberRange = Array.from({ length: maxTeamMembers }, (_, index) => index);
 
     return <Container size="lg">
