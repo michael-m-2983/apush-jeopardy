@@ -35,10 +35,6 @@ export function SetupModal(props: SetupModalProps) {
         <Carousel.Slide>
             <Center h="80vh">
                 <Button size='4em' variant='outline' onClick={props.onClose}>Play</Button>
-                <br />
-                <br />
-                <br/>
-                <p>Remember to answer in the form of a question!</p>
             </Center>
         </Carousel.Slide>
         {/* {UNITS.map(unit => <Carousel.Slide key={unit}>
