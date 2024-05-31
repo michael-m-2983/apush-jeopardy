@@ -101,7 +101,7 @@ function SetupTeams() {
                         })}
                     </Table.Tbody>
                 </Table>
-                <Text>*: Not in this class</Text>
+                <Text>*: Not in this class, does not get a prize if they win</Text>
             </Stack>
         </Center>
     </Container>
